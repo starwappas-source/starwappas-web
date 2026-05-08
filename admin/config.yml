@@ -1,0 +1,33 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: img/blog
+public_folder: /img/blog
+
+collections:
+  - name: blog
+    label: Blog
+    files:
+      - name: posts
+        label: Publicaciones
+        file: blog/posts.json
+        fields:
+          - name: posts
+            label: "Artículos"
+            label_singular: "Artículo"
+            widget: list
+            fields:
+              - {label: "Título", name: title, widget: string}
+              - {label: "Fecha", name: date, widget: datetime, date_format: "DD/MM/YYYY", time_format: false, format: "YYYY-MM-DD"}
+              - label: "Categoría"
+                name: category
+                widget: select
+                options:
+                  - {label: "Tratamientos", value: tratamientos}
+                  - {label: "Consejos de belleza", value: consejos}
+                  - {label: "Novedades", value: novedades}
+                  - {label: "Bienestar", value: bienestar}
+              - {label: "Resumen (aparece en la lista)", name: excerpt, widget: text}
+              - {label: "Imagen", name: image, widget: image, required: false}
+              - {label: "Contenido del artículo", name: body, widget: markdown}

@@ -14,6 +14,7 @@
     ['/destinos/',         'Destinos'],
     ['/mas-tratamientos/', 'Más Tratamientos'],
     ['/sobre-nosotras/',   'Sobre nosotras'],
+    ['/blog/',             'Blog'],
     ['/contacto.html',     'Contacto'],
   ];
 

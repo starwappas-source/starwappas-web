@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Star Wappas · El Vendrell</title>
+  <meta name="description" content="Artículos de estética, consejos de bienestar y novedades del equipo de Star Wappas en El Vendrell.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 32px;
+    }
+    .blog-card {
+      background: #fff;
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 16px rgba(74,63,70,0.06);
+    }
+    .blog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(74,63,70,0.12);
+    }
+    .blog-card__img {
+      height: 210px;
+      background: linear-gradient(145deg,#EFDDE7,#BFA8BA);
+      overflow: hidden;
+      position: relative;
+    }
+    .blog-card__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .blog-card__cat {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      padding: 3px 12px;
+      background: #8F3061;
+      color: #F3CDE2;
+      font-family: var(--f-marca);
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-radius: 999px;
+    }
+    .blog-card__body { padding: 24px; }
+    .blog-card__date {
+      font-family: var(--f-marca);
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8F3061;
+      opacity: 0.75;
+      margin-bottom: 10px;
+    }
+    .blog-card__title {
+      font-family: var(--f-titulo);
+      font-size: 1.3rem;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      color: var(--c-texto);
+    }
+    .blog-card__excerpt {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      opacity: 0.72;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .blog-card__more {
+      display: inline-block;
+      margin-top: 16px;
+      font-family: var(--f-marca);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8F3061;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+    }
+
+    /* Post individual */
+    .post-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--f-marca);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8F3061;
+      margin-bottom: 48px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
+    }
+    #blog-post-inner h1 {
+      font-family: var(--f-titulo);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    #blog-post-inner .post-meta {
+      font-family: var(--f-marca);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #8F3061;
+      opacity: 0.8;
+      margin-bottom: 40px;
+    }
+    #blog-post-inner .post-img {
+      width: 100%;
+      max-height: 440px;
+      object-fit: cover;
+      border-radius: 2px;
+      margin-bottom: 48px;
+    }
+    #blog-post-inner p { font-size: 1.05rem; line-height: 1.88; opacity: 0.82; margin-bottom: 22px; }
+    #blog-post-inner h2 { font-family: var(--f-titulo); font-size: 1.7rem; font-weight: 400; margin: 40px 0 16px; }
+    #blog-post-inner h3 { font-family: var(--f-titulo); font-size: 1.3rem; font-weight: 400; margin: 30px 0 12px; }
+    #blog-post-inner ul, #blog-post-inner ol { margin: 0 0 22px 22px; line-height: 1.85; opacity: 0.82; }
+    #blog-post-inner li { margin-bottom: 6px; }
+    #blog-post-inner blockquote {
+      border-left: 2px solid #8F3061;
+      padding: 4px 0 4px 24px;
+      margin: 36px 0;
+      font-family: var(--f-titulo);
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--c-texto);
+    }
+    #blog-post-inner img { max-width: 100%; border-radius: 2px; margin: 24px 0; }
+
+    .blog-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      opacity: 0.5;
+    }
+    .blog-empty p {
+      font-family: var(--f-titulo);
+      font-size: 1.4rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-overlay" aria-hidden="true"></div>
+  <nav id="mobile-nav" aria-label="Menú principal móvil"></nav>
+  <header id="site-header" role="banner"></header>
+
+  <main>
+    <section class="page-hero">
+      <div class="page-hero__deco page-hero__deco--1" aria-hidden="true"></div>
+      <div class="page-hero__deco page-hero__deco--2" aria-hidden="true"></div>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Ruta">
+          <a href="/">Inicio</a><span class="breadcrumb__sep">·</span>
+          <span>Blog</span>
+        </nav>
+        <span class="page-hero__label">Consejos · Novedades · Bienestar</span>
+        <h1 class="page-hero__title">Todo lo que<br>necesitas <em>saber.</em></h1>
+        <p class="page-hero__desc">Artículos sobre estética, bienestar y los tratamientos que más nos preguntan. Escritos con honestidad, sin vender humo.</p>
+      </div>
+    </section>
+
+    <!-- Lista de artículos -->
+    <section id="view-list" style="padding: var(--pad-section) 0;">
+      <div class="container">
+        <div id="posts-grid" class="blog-grid"></div>
+      </div>
+    </section>
+
+    <!-- Artículo individual -->
+    <section id="view-post" style="display:none; padding: var(--pad-section) 0;">
+      <div class="container">
+        <div style="max-width:740px; margin:0 auto;">
+          <button class="post-back" id="btn-back">← Volver al blog</button>
+          <div id="blog-post-inner"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-inline">
+      <div class="container">
+        <div class="cta-inline__inner">
+          <h2 class="cta-inline__title">¿Tienes alguna<br><em>pregunta?</em></h2>
+          <p class="cta-inline__sub">Escríbenos por WhatsApp y te respondemos con la misma honestidad con la que escribimos.</p>
+          <div class="cta-inline__actions">
+            <a href="https://wa.me/34699769980" class="btn btn--wa btn--lg" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+              Escríbenos
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer" role="contentinfo"></footer>
+
+  <script src="/js/components.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    var CATS = {
+      tratamientos: 'Tratamientos',
+      consejos: 'Consejos de belleza',
+      novedades: 'Novedades',
+      bienestar: 'Bienestar'
+    };
+
+    function slugify(str) {
+      return (str || '').toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    function formatDate(s) {
+      if (!s) return '';
+      var d = new Date(s);
+      return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    var allPosts = [];
+
+    function showList() {
+      document.getElementById('view-list').style.display = '';
+      document.getElementById('view-post').style.display = 'none';
+      history.pushState({}, '', '/blog/');
+      window.scrollTo(0, 0);
+    }
+
+    function showPost(slug) {
+      var post = allPosts.find(function(p){ return slugify(p.title) === slug; });
+      if (!post) return showList();
+      var inner = document.getElementById('blog-post-inner');
+      inner.innerHTML =
+        '<h1>' + post.title + '</h1>' +
+        '<div class="post-meta">' + formatDate(post.date) + (post.category ? ' &nbsp;·&nbsp; ' + (CATS[post.category] || post.category) : '') + '</div>' +
+        (post.image ? '<img class="post-img" src="' + post.image + '" alt="' + post.title + '">' : '') +
+        marked.parse(post.body || '');
+      document.getElementById('view-list').style.display = 'none';
+      document.getElementById('view-post').style.display = '';
+      history.pushState({}, '', '/blog/?p=' + slug);
+      window.scrollTo(0, 0);
+    }
+
+    function renderPosts(posts) {
+      var grid = document.getElementById('posts-grid');
+      if (!posts || !posts.length) {
+        grid.innerHTML = '<div class="blog-empty"><p>Próximamente — el blog está en camino.</p></div>';
+        return;
+      }
+      var sorted = posts.slice().sort(function(a,b){ return new Date(b.date) - new Date(a.date); });
+      grid.innerHTML = sorted.map(function(post) {
+        var slug = slugify(post.title);
+        return '<article class="blog-card" onclick="showPost(\'' + slug + '\')">' +
+          '<div class="blog-card__img">' +
+          (post.image ? '<img src="' + post.image + '" alt="' + post.title + '" loading="lazy">' : '') +
+          (post.category ? '<span class="blog-card__cat">' + (CATS[post.category] || post.category) + '</span>' : '') +
+          '</div>' +
+          '<div class="blog-card__body">' +
+          '<div class="blog-card__date">' + formatDate(post.date) + '</div>' +
+          '<h2 class="blog-card__title">' + post.title + '</h2>' +
+          '<p class="blog-card__excerpt">' + (post.excerpt || '') + '</p>' +
+          '<span class="blog-card__more">Leer más →</span>' +
+          '</div></article>';
+      }).join('');
+    }
+
+    document.getElementById('btn-back').addEventListener('click', showList);
+
+    fetch('/blog/posts.json')
+      .then(function(r){ return r.json(); })
+      .then(function(data) {
+        allPosts = data.posts || [];
+        renderPosts(allPosts);
+        var p = new URLSearchParams(window.location.search).get('p');
+        if (p) showPost(p);
+      })
+      .catch(function() {
+        document.getElementById('posts-grid').innerHTML = '<div class="blog-empty"><p>Próximamente — el blog está en camino.</p></div>';
+      });
+
+    window.addEventListener('popstate', function() {
+      var p = new URLSearchParams(window.location.search).get('p');
+      if (p) showPost(p); else showList();
+    });
+  </script>
+</body>
+</html>
