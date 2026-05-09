@@ -62,29 +62,6 @@ if (typeof gsap !== 'undefined') {
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Cursor personalizado (solo en dispositivos con ratón) ────
-if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-  const cursor    = document.createElement('div');
-  const cursorDot = document.createElement('div');
-  cursor.className    = 'sw-cursor';
-  cursorDot.className = 'sw-cursor__dot';
-  document.body.appendChild(cursor);
-  document.body.appendChild(cursorDot);
-
-  // El cursor aparece solo cuando el ratón entra en la ventana
-  document.addEventListener('mouseenter', () => cursor.classList.add('ready'));
-
-  document.addEventListener('mousemove', e => {
-    gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.08, ease: 'none' });
-    gsap.to(cursor,    { x: e.clientX, y: e.clientY, duration: 0.4,  ease: 'power3.out' });
-  });
-
-  // Cursor grande al pasar sobre elementos interactivos
-  document.querySelectorAll('a, button, .destino-card, .trat-card').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('sw-cursor--hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('sw-cursor--hover'));
-  });
-}
 
 // ════════════════════════════════════════════════
 // ANIMACIÓN HERO
@@ -409,5 +386,25 @@ gsap.from('.contacto-form', {
       block.classList.toggle('acordeon-open', !isOpen);
       wrapper.style.maxHeight = isOpen ? '0' : wrapper.scrollHeight + 'px';
     });
+  });
+})();
+
+// ── Cursor personalizado ─────────────────────────────────────
+(function () {
+  const cursorDot = document.createElement('div');
+  cursorDot.classList.add('cursor-dot');
+  document.body.appendChild(cursorDot);
+
+  document.addEventListener('mousemove', function(e) {
+    cursorDot.style.left = e.clientX + 'px';
+    cursorDot.style.top = e.clientY + 'px';
+  });
+
+  document.addEventListener('mouseleave', function() {
+    cursorDot.style.opacity = '0';
+  });
+
+  document.addEventListener('mouseenter', function() {
+    cursorDot.style.opacity = '1';
   });
 })();

@@ -1224,36 +1224,29 @@ h4 { font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
 .footer__bottom nav a:hover { color: rgba(255,255,255,0.8); }
 
 /* ============================================================
-   CURSOR PERSONALIZADO (solo dispositivos con ratón)
+   CURSOR PERSONALIZADO
    ============================================================ */
-.sw-cursor {
-  width: 38px; height: 38px;
-  border: 1.5px solid var(--c-berenjena);
+* {
+  cursor: none !important;
+}
+
+.cursor-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #8F3061;
   border-radius: 50%;
   position: fixed;
+  top: 0;
+  left: 0;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 99999;
   transform: translate(-50%, -50%);
-  mix-blend-mode: multiply;
-  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s;
-  opacity: 0;
+  transition: transform 0.1s ease;
 }
-.sw-cursor.ready { opacity: 1; }
-.sw-cursor__dot {
-  width: 6px; height: 6px;
-  background: var(--c-berenjena);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-}
-.sw-cursor--hover {
-  width: 56px; height: 56px;
-  border-color: var(--c-malva);
-}
+
 @media (hover: none) {
-  .sw-cursor, .sw-cursor__dot { display: none; }
+  * { cursor: auto !important; }
+  .cursor-dot { display: none; }
 }
 
 /* ============================================================
