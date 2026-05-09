@@ -134,4 +134,120 @@
   waBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>`;
   document.body.appendChild(waBtn);
 
+  // ── SEO: CANONICAL + OPEN GRAPH + TWITTER ──────────────────
+  const BASE_URL = 'https://starwappas.com';
+  const OG_IMG   = BASE_URL + '/img/og-starwappas.jpg';
+  const canonURL = BASE_URL + path;
+
+  const linkCan = document.createElement('link');
+  linkCan.rel   = 'canonical';
+  linkCan.href  = canonURL;
+  document.head.appendChild(linkCan);
+
+  const pgTitle  = document.title || 'Star Wappas · Centro de Estética · El Vendrell';
+  const pgDescEl = document.querySelector('meta[name="description"]');
+  const pgDesc   = pgDescEl ? pgDescEl.content : 'Centro de estética en El Vendrell. Faciales, corporales, depilación láser, masajes y mucho más.';
+
+  [
+    ['property', 'og:type',          'website'],
+    ['property', 'og:locale',        'es_ES'],
+    ['property', 'og:site_name',     'Star Wappas'],
+    ['property', 'og:url',           canonURL],
+    ['property', 'og:title',         pgTitle],
+    ['property', 'og:description',   pgDesc],
+    ['property', 'og:image',         OG_IMG],
+    ['property', 'og:image:width',   '1200'],
+    ['property', 'og:image:height',  '630'],
+    ['property', 'og:image:alt',     'Star Wappas · Centro de Estética · El Vendrell'],
+    ['name',     'twitter:card',         'summary_large_image'],
+    ['name',     'twitter:title',        pgTitle],
+    ['name',     'twitter:description',  pgDesc],
+    ['name',     'twitter:image',        OG_IMG],
+  ].forEach(([attr, prop, val]) => {
+    const m = document.createElement('meta');
+    m.setAttribute(attr, prop);
+    m.content = val;
+    document.head.appendChild(m);
+  });
+
+  // ── SCHEMA.ORG: BeautySalon + OfferCatalog ─────────────────
+  const schemaScript = document.createElement('script');
+  schemaScript.type = 'application/ld+json';
+  schemaScript.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BeautySalon",
+    "name": "Star Wappas",
+    "url": "https://starwappas.com",
+    "logo": "https://starwappas.com/img/logo.png",
+    "image": OG_IMG,
+    "description": "Centro de estética familiar en El Vendrell (Tarragona). Tratamientos faciales, corporales, depilación láser, masajes y más. Especialistas en radiofrecuencia facial, microneedling, depilación eléctrica definitiva y eliminación de imperfecciones benignas.",
+    "telephone": ["+34977181948", "+34699769980"],
+    "email": "star.wappas@gmail.com",
+    "foundingDate": "2010",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "C/ de Les Flors, 40-52",
+      "addressLocality": "El Vendrell",
+      "postalCode": "43700",
+      "addressRegion": "Tarragona",
+      "addressCountry": "ES"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "09:00",
+        "closes": "21:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday"],
+        "opens": "09:00",
+        "closes": "14:00"
+      }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/star_wappas/",
+      "https://www.facebook.com/star_wappas/"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Tratamientos Star Wappas",
+      "itemListElement": [
+        { "@type":"Offer", "name":"Radiofrecuencia facial",               "alternateName":"Contour Lift",                  "url":"https://starwappas.com/facial/contour-lift.html",                    "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Exosomas faciales",                    "alternateName":"Elixir Vital",                  "url":"https://starwappas.com/facial/elixir-vital.html",                    "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Microneedling Dermapen facial",        "alternateName":"Protocolo Renew",               "url":"https://starwappas.com/facial/protocolo-renew.html",                 "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Terapia LED facial",                   "alternateName":"Ritual Lumière",                "url":"https://starwappas.com/facial/ritual-lumiere.html",                  "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Fotorrejuvenecimiento IPL facial",     "alternateName":"Destellos",                     "url":"https://starwappas.com/facial/destellos.html",                       "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Flash facial Coolifting",              "alternateName":"Coolifting",                    "url":"https://starwappas.com/facial/coolifting.html",                      "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Exfoliación química facial",           "alternateName":"Código Claro",                  "url":"https://starwappas.com/facial/codigo-claro.html",                    "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Limpieza facial profunda",             "alternateName":"Base Perfecta",                 "url":"https://starwappas.com/facial/base-perfecta.html",                   "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Mesoterapia virtual facial",           "alternateName":"Mesoterapia Virtual Facial",    "url":"https://starwappas.com/facial/mesoterapia-virtual.html",             "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"SQT Biomicroneedling",                 "alternateName":"SQT Biomicroneedling",          "url":"https://starwappas.com/facial/sqt-biomicroneedling.html",            "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Ondas de choque corporales",           "alternateName":"Onda Viva",                     "url":"https://starwappas.com/corporal/onda-viva.html",                     "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Endospheres Therapy",                  "alternateName":"Endospheres",                   "url":"https://starwappas.com/corporal/endospheres.html",                   "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Láser verde reducción grasa corporal", "alternateName":"Láser Esmeralda",               "url":"https://starwappas.com/corporal/laser-esmeralda.html",               "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Detox corporal",                       "alternateName":"Detox Body",                    "url":"https://starwappas.com/corporal/detox-body.html",                    "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Vibración estética corporal",          "alternateName":"Vibra Glow",                    "url":"https://starwappas.com/corporal/vibra-glow.html",                    "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Radiofrecuencia corporal",             "alternateName":"Uplift Body",                   "url":"https://starwappas.com/corporal/uplift-body.html",                   "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Mesoterapia virtual corporal",         "alternateName":"Mesoterapia Virtual Corporal",  "url":"https://starwappas.com/corporal/mesoterapia-virtual-corporal.html",  "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Presoterapia",                         "alternateName":"Flow",                          "url":"https://starwappas.com/corporal/flow.html",                          "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Depilación láser LED",                 "alternateName":"Sin Retorno",                   "url":"https://starwappas.com/depilacion/sin-retorno.html",                 "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Depilación eléctrica definitiva",      "alternateName":"Raíz Cero",                     "url":"https://starwappas.com/depilacion/raiz-cero.html",                   "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Fotodepilación IPL",                   "alternateName":"IPL Procyon",                   "url":"https://starwappas.com/depilacion/ipl-procyon.html",                 "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Depilación con cera",                  "alternateName":"Cera",                          "url":"https://starwappas.com/depilacion/cera.html",                        "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Masaje relajante",                     "alternateName":"Reset",                         "url":"https://starwappas.com/masajes/reset.html",                          "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Masaje deportivo",                     "alternateName":"Recover",                       "url":"https://starwappas.com/masajes/recover.html",                        "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Masaje terapéutico",                   "alternateName":"Equilibrium",                   "url":"https://starwappas.com/masajes/equilibrium.html",                    "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Reiki",                                "alternateName":"Alma",                          "url":"https://starwappas.com/masajes/alma.html",                           "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Andulación HHP",                       "alternateName":"Andulación HHP",                "url":"https://starwappas.com/masajes/andulacion-hhp.html",                 "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Eliminar verrugas e imperfecciones",   "alternateName":"Láser Azul Blauman",            "url":"https://starwappas.com/mas-tratamientos/laser-azul-blauman.html",   "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Solarium con tubos de colágeno",       "alternateName":"Solarium",                      "url":"https://starwappas.com/mas-tratamientos/solarium.html",              "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Tratamiento contorno de ojos",         "alternateName":"Contorno de Ojos",              "url":"https://starwappas.com/mas-tratamientos/contorno-de-ojos.html",     "areaServed":"El Vendrell" },
+        { "@type":"Offer", "name":"Diseño de cejas y pestañas",           "alternateName":"Cejas y Pestañas",              "url":"https://starwappas.com/mas-tratamientos/cejas-pestanas.html",        "areaServed":"El Vendrell" }
+      ]
+    }
+  });
+  document.head.appendChild(schemaScript);
+
 })();

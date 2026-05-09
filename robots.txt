@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /gestion/
+Disallow: /blog/wp-admin/
+
+Sitemap: https://starwappas.com/sitemap.xml
